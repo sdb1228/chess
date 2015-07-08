@@ -19,6 +19,10 @@ function Connection(nickName, onReceiveMove, onSuccess, onFailure){
     console.log(move_string);
   }
 
+  this.sendGameRequest = function(myId, theirId) {
+    thisCon.dispatcher.trigger('game_request', {my_id: myId, their_id: theirId})
+  }
+
   this.dispatcher.on_open = function(data) {
     var connectionObj = { connection_id: data.connection_id, nick_name: nickName };
     thisCon.connection_id = data.connection_id;
