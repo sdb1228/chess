@@ -4,32 +4,34 @@ function Game(html_id, opts, moveHook) {
   // initialize options
   // ******************
 
-  var position = 'start';
+  this.position = 'start';
   if(opts.position)
     position = opts.position;
 
-  var orientation = 'white';
+  this.orientation = 'white';
   if(opts.orientation)
     orientation = opts.orientation;
 
-  var showNotation = false;
+  this.showNotation = false;
   if(opts.showNotation)
     showNotation = opts.showNotation;
 
-  var draggable = true;
+  this.draggable = true;
   if(opts.draggable)
     draggable = opts.draggable;
 
-  var dropOffBoard = 'snapback';
+  this.dropOffBoard = 'snapback';
   if(opts.dropOffBoard)
     dropOffBoard = opts.dropOffBoard;
 
-  var moveList = [];
+  this.moveList = [];
   if (opts.moveList)
     moveList = opts.moveList;
 
-  var statusEl = $(opts.statusElId || null);
-  var pgnEl = $(opts.pgnElId || null);
+  this.statusEl = $(opts.statusElId || null);
+  this.pgnEl = $(opts.pgnElId || null);
+
+  _this = this;
 
   // ******************
   // only allow legal moves
@@ -37,7 +39,7 @@ function Game(html_id, opts, moveHook) {
 
   // do not pick up pieces if the game is over
   // only pick up pieces for the side to move
-  function onDragStart(source, piece, position, orientation) {
+  this.onDragStart = function(source, piece, position, orientation) {
     if (chess.game_over() === true ||
         (chess.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (chess.turn() === 'b' && piece.search(/^w/) !== -1)) {
@@ -45,7 +47,7 @@ function Game(html_id, opts, moveHook) {
     }
   };
 
-  function onDrop(source, target) {
+  this.onDrop = function(source, target) {
     // see if the move is legal
     var move = chess.move({
       from: source,
@@ -58,16 +60,16 @@ function Game(html_id, opts, moveHook) {
       return 'snapback';
     }else {
       //save to the move list
-      moveList.push(move.san);
+      _this.moveList.push(move.san);
       moveHook(move.san);
     }
 
-    updateStatus();
+    _this.updateStatus();
   };
 
   // update the board position after the piece snap
   // for castling, en passant, pawn promotion
-  function onSnapEnd() {
+  this.onSnapEnd = function() {
     board.position(chess.fen());
   };
 
@@ -75,31 +77,31 @@ function Game(html_id, opts, moveHook) {
   // integration functions
   // ******************
 
-  function getConfig() {
+  this.getConfig = function() {
     return {
-      position: position,
-      orientation: orientation,
-      showNotation: showNotation,
-      draggable: draggable,
-      dropOffBoard: dropOffBoard,
-      onDragStart: onDragStart,
-      onDrop: onDrop,
-      onSnapEnd: onSnapEnd
+      position: this.position,
+      orientation: this.orientation,
+      showNotation: this.showNotation,
+      draggable: this.draggable,
+      dropOffBoard: this.dropOffBoard,
+      onDragStart: this.onDragStart,
+      onDrop: this.onDrop,
+      onSnapEnd: this.onSnapEnd
     };
   };
 
   var chess = new Chess();
-  var board = new ChessBoard(html_id, getConfig());
+  var board = new ChessBoard(html_id, this.getConfig());
 
-  function move(move_string) {
+  this.move = function(move_string) {
     board.move(move_string);
   };
 
-  function clearBoard() {
+  this.clearBoard = function() {
     board.clear();
   };
 
-  function getMoveList(){
+  this.getMoveList = function(){
     return moveList;
   };
 
@@ -108,7 +110,7 @@ function Game(html_id, opts, moveHook) {
   // ******************
 
 
-  function updateStatus() {
+  this.updateStatus = function() {
     var status = '';
 
     var moveColor = 'White';
@@ -136,9 +138,9 @@ function Game(html_id, opts, moveHook) {
       }
     }
 
-    statusEl.html(status);
-    pgnEl.html(chess.pgn());
+    this.statusEl.html(status);
+    this.pgnEl.html(chess.pgn());
   };
 
-  updateStatus();
+  this.updateStatus();
 }

@@ -4,15 +4,14 @@ $(document).ready(function(){
     statusElId: '#status',
     pgnElId: '#pgn'
   };
-  var game = new window.Game('board', cfg, sendLastMove);
-  var connection = new window.Connection();
+  var connection = new window.Connection('nick_name', receiveMove, null, null);
+  var game = new window.Game('board', cfg, connection.sendMove);
 });
-
 
 function decideBlackWhite(){
   return 'white'; //for now
 }
 
-function sendLastMove(move_string) {
-  console.log(move_string);
+function receiveMove(data){
+  console.log(data);
 }
