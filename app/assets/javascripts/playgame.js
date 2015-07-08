@@ -1,7 +1,8 @@
 var connection = null;
+var game = null;
 
 $(document).ready(function(){
-  connection = new window.Connection(me.nickName, receiveMove, null, null);
+  connection = new window.Connection(me.nickName, receiveMove, receiveGameRequest);
 
   showListOfPlayers();
 
@@ -17,13 +18,16 @@ function showListOfPlayers() {
 $(document).on('click', '.playThisGuy', function(data){
   var theirId = $(this).data('id');
   connection.sendGameRequest(me.id, theirId);
-})
+});
 
 
 function receiveMove(data){
   console.log(data);
 }
 
+function receiveGameRequest(data) {
+
+}
 
 function startGame(orientation) {
   var cfg = {
@@ -31,5 +35,5 @@ function startGame(orientation) {
     statusElId: '#status',
     pgnElId: '#pgn'
   };
-  var game = new window.Game('board', cfg, connection.sendMove);
+  game = new window.Game('board', cfg, connection.sendMove);
 }
