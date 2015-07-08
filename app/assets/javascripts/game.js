@@ -28,6 +28,9 @@ function Game(html_id, opts, moveHook) {
   if (opts.moveList)
     moveList = opts.moveList;
 
+  var statusEl = $(opts.statusElId || null);
+  var pgnEl = $(opts.pgnElId || null);
+
   // ******************
   // only allow legal moves
   // ******************
@@ -35,16 +38,16 @@ function Game(html_id, opts, moveHook) {
   // do not pick up pieces if the game is over
   // only pick up pieces for the side to move
   function onDragStart(source, piece, position, orientation) {
-    if (game.game_over() === true ||
-        (game.turn() === 'w' && piece.search(/^b/) !== -1) ||
-        (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+    if (chess.game_over() === true ||
+        (chess.turn() === 'w' && piece.search(/^b/) !== -1) ||
+        (chess.turn() === 'b' && piece.search(/^w/) !== -1)) {
       return false;
     }
   };
 
   function onDrop(source, target) {
     // see if the move is legal
-    var move = game.move({
+    var move = chess.move({
       from: source,
       to: target,
       promotion: 'q' // NOTE: always promote to a queen for simplicity
@@ -65,7 +68,7 @@ function Game(html_id, opts, moveHook) {
   // update the board position after the piece snap
   // for castling, en passant, pawn promotion
   function onSnapEnd() {
-    board.position(game.fen());
+    board.position(chess.fen());
   };
 
   // ******************
@@ -79,14 +82,14 @@ function Game(html_id, opts, moveHook) {
       showNotation: showNotation,
       draggable: draggable,
       dropOffBoard: dropOffBoard,
-      onDragStart: this.onDragStart,
-      onDrop: this.onDrop,
-      onSnapEnd: this.onSnapEnd
+      onDragStart: onDragStart,
+      onDrop: onDrop,
+      onSnapEnd: onSnapEnd
     };
   };
 
   var chess = new Chess();
-  var board = new ChessBoard(html_id, this.getConfig());
+  var board = new ChessBoard(html_id, getConfig());
 
   function move(move_string) {
     board.move(move_string);
@@ -109,17 +112,17 @@ function Game(html_id, opts, moveHook) {
     var status = '';
 
     var moveColor = 'White';
-    if (game.turn() === 'b') {
+    if (chess.turn() === 'b') {
       moveColor = 'Black';
     }
 
     // checkmate?
-    if (game.in_checkmate() === true) {
+    if (chess.in_checkmate() === true) {
       status = 'Game over, ' + moveColor + ' is in checkmate.';
     }
 
     // draw?
-    else if (game.in_draw() === true) {
+    else if (chess.in_draw() === true) {
       status = 'Game over, drawn position';
     }
 
@@ -128,14 +131,13 @@ function Game(html_id, opts, moveHook) {
       status = moveColor + ' to move';
 
       // check?
-      if (game.in_check() === true) {
+      if (chess.in_check() === true) {
         status += ', ' + moveColor + ' is in check';
       }
     }
 
     statusEl.html(status);
-    fenEl.html(game.fen());
-    pgnEl.html(game.pgn());
+    pgnEl.html(chess.pgn());
   };
 
   updateStatus();

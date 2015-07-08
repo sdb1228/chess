@@ -1,3 +1,9 @@
+function Connection(){
+
+
+}
+
+
 
   var dispatcher = new WebSocketRails('localhost:3000/websocket');
   dispatcher.on_open = function(data) {
@@ -11,4 +17,4 @@
     });
   }
 
-dispatcher.trigger('message', connection_id);
+// dispatcher.trigger('message', connection_id);
