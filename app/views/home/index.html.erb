@@ -3,12 +3,12 @@
 .highlight-white {
   -webkit-box-shadow: inset 0 0 3px 3px yellow;
   -moz-box-shadow: inset 0 0 3px 3px yellow;
-  box-shadow: inset 0 0 3px 3px yellow;
+  box-shadow: inset 0 0 3px 3px yellow;  
 }
 .highlight-black {
   -webkit-box-shadow: inset 0 0 3px 3px blue;
   -moz-box-shadow: inset 0 0 3px 3px blue;
-  box-shadow: inset 0 0 3px 3px blue;
+  box-shadow: inset 0 0 3px 3px blue;  
 }
 </style>
  <%=javascript_include_tag "chess" %>
@@ -21,7 +21,6 @@
 	<button id="stop" onclick="myStopFunction()" disabled>Stop</button>
 	<button class="start" onclick="makeRandomMove()" >Previous</button>
 	<button class="start" onclick="makeRandomMove()" >Next</button>
-
 <script>
 	var board,
   boardEl = $('#board'),
@@ -34,10 +33,22 @@
   pgnEl = $('#pgn');
   var moveAnimator;
   var canAnimate = true;
+  var connection_id;
   var dispatcher = new WebSocketRails('localhost:3000/websocket');
   dispatcher.on_open = function(data) {
+    var connectionObj = { connection_id: data.connection_id, nick_name: "nick_name" }
+    connection_id = data.connection_id;
+    dispatcher.trigger('connected',  connectionObj);
+    var channel = dispatcher.subscribe(data.connection_id);
+    channel.bind('message', function(data) {
 
-}
+      console.log('channel event received: ' + data);
+    });
+  }
+
+  // dispatcher.bind('message.send', function(task) {
+  //   console.log('successfully created ');
+  // });
 
 var updateStatus = function() {
   var status = '';
@@ -75,9 +86,7 @@ var updateStatus = function() {
 
 var makeRandomMove = function() {
 
-
-  dispatcher.bind('event_name', function(data) {
-  });
+  dispatcher.trigger('message', connection_id);
 
   var possibleMoves = game.moves({
     verbose: true
@@ -101,7 +110,7 @@ var makeRandomMove = function() {
     boardEl.find('.square-55d63').removeClass('highlight-black');
     boardEl.find('.square-' + move.from).addClass('highlight-black');
     squareToHighlight = move.to;
-    colorToHighlight = 'black';
+    colorToHighlight = 'black';    
   }
 
   game.move(possibleMoves[randomIndex].san);
@@ -137,6 +146,5 @@ var cfg = {
   onMoveEnd: onMoveEnd
 };
 board = new ChessBoard('board', cfg);
-
 
 </script>
