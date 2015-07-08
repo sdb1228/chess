@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  white: MyString
+  integer: MyString
+  blah: MyString
+  integer: MyString
+
+two:
+  white: MyString
+  integer: MyString
+  blah: MyString
+  integer: MyString
