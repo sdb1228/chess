@@ -8,5 +8,8 @@ class ChatController < WebsocketRails::BaseController
   end
   def client_connected
   	controller_store[data[:connection_id]] = data[:nick_name]
+  	user = User.find_or_initialize_by(nick_name: data[:nick_name])
+  	user.update(connection_id: data[:connection_id])
+  	user.save!
   end
 end
