@@ -65,11 +65,18 @@ function Game(html_id, opts, moveHook, id) {
     if (move === null) {
       return 'snapback';
     }else {
-      //save to the move list
-      _this.moveList.push(move.san);
-      moveHook(move.san);
       //disable moving
       _this.notMyTurn = true;
+
+      if (chess.in_draw() === true) {
+        _this.moveList.push(move.san);
+        moveHook(move.san + "$");
+      }
+      else{
+        //save to the move list
+        _this.moveList.push(move.san);
+        moveHook(move.san);
+      }
     }
 
     _this.updateStatus();

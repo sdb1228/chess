@@ -2,7 +2,7 @@ var connection = null;
 var game = null;
 
 $(document).ready(function(){
-  connection = new window.Connection(me.nickName, receiveMove, receiveGameRequest, startGame);
+  connection = new window.Connection(me.nickName, receiveMove, receiveGameRequest, startGame, endGame);
   showListOfPlayers();
   $("#player-nickname h4").text(me.nickName);
 });
@@ -54,6 +54,11 @@ $(document).on('click', '#accept', function(data){
 
 function receiveMove(data){
 	game.move(data);
+}
+
+function endGame (link) {
+  $("#replayLink").show();
+  $("#replayLink").attr("href", link);
 }
 
 function receiveGameRequest(data) {

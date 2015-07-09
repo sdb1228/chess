@@ -1,4 +1,4 @@
-function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame){
+function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, endGame){
   this.dispatcher = new WebSocketRails(location.host + '/websocket');
   this.channel = null;
   this.connection_id = null;
@@ -12,6 +12,10 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame){
 
   this.onGameRequest = function(data) {
     onReceiveGameRequest(data);
+  };
+
+  this.onEndGame = function(link) {
+    endGame(link);
   };
 
   this.confirmRequest = function(myId, theirId) {
@@ -30,7 +34,6 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame){
 
     };
     thisCon.dispatcher.trigger('send_move', data);
-    console.log(move_string);
   };
 
   this.sendGameRequest = function(myId, theirId) {
@@ -44,7 +47,12 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame){
     thisCon.channel = thisCon.dispatcher.subscribe(data.connection_id);
 
     thisCon.channel.bind('send_move', function(data) {
-      thisCon.onMessage(data);
+      if (data.endOfGame) {
+        thisCon.onEndGame(data.endOfGame)
+      }
+      else {
+        thisCon.onMessage(data);
+      }
     });
 
     thisCon.channel.bind('game_request', function(data) {

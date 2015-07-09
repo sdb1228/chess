@@ -4,6 +4,7 @@ class ChatController < WebsocketRails::BaseController
   end
   def send_move
 	g = Game.find(data[:game_id])
+	g.append_move(data[:move_string])
 	white = User.find(g.white)
 	black = User.find(g.black)
 	if white.connection_id != data[:connection_id]
@@ -12,6 +13,13 @@ class ChatController < WebsocketRails::BaseController
 	else
 		connection_id = black.connection_id
 		WebsocketRails[connection_id].trigger(:send_move, data[:move_string])
+	end
+	if data[:move_string].include?("#") or  data[:move_string].include?("$")
+		link = g.generate_link(request.host_with_port)
+		black_connection_id = black.connection_id
+		white_connection_id = white.connection_id
+		WebsocketRails[black_connection_id].trigger(:send_move, {endOfGame: link})
+		WebsocketRails[white_connection_id].trigger(:send_move, {endOfGame: link})
 	end
   end
   def client_connected
