@@ -159,7 +159,7 @@ function Game(html_id, opts, moveHook, id) {
     }
 
     this.statusEl.html(status);
-    this.pgnEl.html(chess.pgn());
+    this.pgnEl.html(chess.pgn({ max_width: 10, newline_char: "<br />" }));
   };
 
   this.highlightCheck = function(color, highlight) {
