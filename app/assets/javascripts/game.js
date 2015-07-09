@@ -5,6 +5,7 @@ function Game(html_id, opts, moveHook, id) {
   // ******************
 
   this.gameID = id;
+  this.notMyTurn = false;
 
   this.position = 'start';
   if(opts.position)
@@ -13,6 +14,9 @@ function Game(html_id, opts, moveHook, id) {
   this.orientation = 'white';
   if(opts.orientation)
     this.orientation = opts.orientation;
+
+  if(this.orientation == 'black')
+    this.notMyTurn = true;
 
   this.showNotation = false;
   if(opts.showNotation)
@@ -42,7 +46,7 @@ function Game(html_id, opts, moveHook, id) {
   // do not pick up pieces if the game is over
   // only pick up pieces for the side to move
   this.onDragStart = function(source, piece, position, orientation) {
-    if (chess.game_over() === true ||
+    if (chess.game_over() === true || _this.notMyTurn ||
         (chess.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (chess.turn() === 'b' && piece.search(/^w/) !== -1)) {
       return false;
@@ -64,6 +68,8 @@ function Game(html_id, opts, moveHook, id) {
       //save to the move list
       _this.moveList.push(move.san);
       moveHook(move.san);
+      //disable moving
+      _this.notMyTurn = true;
     }
 
     _this.updateStatus();
@@ -73,6 +79,11 @@ function Game(html_id, opts, moveHook, id) {
   // for castling, en passant, pawn promotion
   this.onSnapEnd = function() {
     board.position(chess.fen());
+  };
+
+  this.onMoveEnd = function(oldPos, newPos) {
+    //enable moving again
+    _this.notMyTurn = false;
   };
 
   // ******************
@@ -88,7 +99,8 @@ function Game(html_id, opts, moveHook, id) {
       dropOffBoard: this.dropOffBoard,
       onDragStart: this.onDragStart,
       onDrop: this.onDrop,
-      onSnapEnd: this.onSnapEnd
+      onSnapEnd: this.onSnapEnd,
+      onMoveEnd: this.onMoveEnd
     };
   };
 
