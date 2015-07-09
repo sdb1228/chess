@@ -15,4 +15,5 @@ Rails.application.config.assets.precompile += %w(
   replay.js
   chess.js
   chessboard-0.3.0.min.js
+  draw.js
 )
