@@ -11,7 +11,9 @@ class HomeController < ApplicationController
     players = User.all
 
     @waiting_players = players - [@u]
+  end
 
+  def replay
   end
 
 end
