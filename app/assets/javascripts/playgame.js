@@ -9,7 +9,18 @@ $(document).ready(function(){
 
 function showListOfPlayers() {
   players.forEach(function(player){
-    var string = "<li class='list-group-item'><span>" + player.nickName + " </span><button class='btn btn-primary playThisGuy' data-nickName='" + player.nickName + "' data-id='" + player.id + "'>Send request to play</button></li>";
+    var string = "<li class='list-group-item'>" +
+    "<div class='container-fluid'>" +
+    "<div class='row'>" +
+    "<div class='col-xs-6'>" +
+    "<span>" + player.nickName + " </span>" +
+    "</div>" +
+    "<div class='col-xs-6'>" +
+    "<button class='btn btn-primary playThisGuy' data-nickName='" + player.nickName + "' data-id='" + player.id + "'>Send request to play</button>" +
+    "</div>" +
+    "</div>" +
+    "</div>" +
+    "</li>";
     $("#playerList").append(string);
   });
 }
