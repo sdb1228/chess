@@ -6,7 +6,7 @@ class HomeController < ApplicationController
     #register user
     nick_name = params[:nick_name]
     @u = User.find_or_initialize_by(nick_name: nick_name)
-
+    @u.save!
     # get list of available players
     players = User.all
 

@@ -8,7 +8,9 @@ WebsocketRails::EventMap.describe do
 
   # subscribe :client_connected, 'connections#connected'
   subscribe :send_move, 'chat#send_move'
+  subscribe :game_request, 'chat#game_request'
   subscribe :connected, 'chat#client_connected'
+  subscribe :game, 'chat#game'
   # subscribe :event_name, :to => ChatController, :with_method => :client_connected
   # Here is an example of mapping namespaced events:
   #   namespace :product do

@@ -1,32 +1,34 @@
-function Game(html_id, opts, moveHook) {
+function Game(html_id, opts, moveHook, id) {
 
   // ******************
   // initialize options
   // ******************
 
+  this.gameID = id;
+
   this.position = 'start';
   if(opts.position)
-    position = opts.position;
+    this.position = opts.position;
 
   this.orientation = 'white';
   if(opts.orientation)
-    orientation = opts.orientation;
+    this.orientation = opts.orientation;
 
   this.showNotation = false;
   if(opts.showNotation)
-    showNotation = opts.showNotation;
+    this.showNotation = opts.showNotation;
 
   this.draggable = true;
   if(opts.draggable)
-    draggable = opts.draggable;
+    this.draggable = opts.draggable;
 
   this.dropOffBoard = 'snapback';
   if(opts.dropOffBoard)
-    dropOffBoard = opts.dropOffBoard;
+    this.dropOffBoard = opts.dropOffBoard;
 
   this.moveList = [];
   if (opts.moveList)
-    moveList = opts.moveList;
+    this.moveList = opts.moveList;
 
   this.statusEl = $(opts.statusElId || null);
   this.pgnEl = $(opts.pgnElId || null);
@@ -94,7 +96,8 @@ function Game(html_id, opts, moveHook) {
   var board = new ChessBoard(html_id, this.getConfig());
 
   this.move = function(move_string) {
-    board.move(move_string);
+    chess.move(move_string);
+    board.position(chess.fen());
   };
 
   this.clearBoard = function() {
