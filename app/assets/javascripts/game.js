@@ -98,6 +98,7 @@ function Game(html_id, opts, moveHook, id) {
   this.move = function(move_string) {
     chess.move(move_string);
     board.position(chess.fen());
+    _this.updateStatus();
   };
 
   this.clearBoard = function() {
