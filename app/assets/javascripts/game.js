@@ -138,12 +138,35 @@ function Game(html_id, opts, moveHook, id) {
 
       // check?
       if (chess.in_check() === true) {
-        status += ', ' + moveColor + ' is in check';
+        _this.highlightCheck(moveColor, true);
+        status += ', ' + moveColor + ' <strong>is in check</strong>';
+      }else{
+        _this.highlightCheck("Black", false);
+        _this.highlightCheck("White", false);
       }
     }
 
     this.statusEl.html(status);
     this.pgnEl.html(chess.pgn());
+  };
+
+  this.highlightCheck = function(color, highlight) {
+    var space = null;
+    var piece = "wK";
+    if(color == "Black")
+      piece = "bK";
+
+    var position = board.position();
+    _.forIn(position, function(value, key){
+      if(value == piece)
+        space = key;
+    });
+
+    if(highlight) {
+      $(".square-" + space).addClass("highlight-check");
+    }else{
+      $(".square-" + space).removeClass("highlight-check");
+    }
   };
 
   this.updateStatus();

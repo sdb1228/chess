@@ -1,6 +1,12 @@
-<form action="/home/playgame" method="POST">
+<div class="jumbotron">
+  <h1>The Real Chess</h1>
+</div>
+
+<form id="register-form" action="/home/playgame" method="POST">
   <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <label>I wanna play</label><br/>
-  <input type="text" name="nick_name" placeholder="my cool nickname" required/><br/>
-  <button>Play!</button>
+  <div class="form-group">
+    <label for="nickname">I wanna play!</label>
+    <input type="text" name="nick_name" class="form-control input-lg" id="nickname" placeholder="my cool nickname">
+  </div>
+  <button type="submit" class="btn btn-primary">Play!</button>
 </form>

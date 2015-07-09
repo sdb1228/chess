@@ -1,3 +1,32 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+#register-form {
+  margin:auto;
+  width: 40%;
+}
+
+#game-list-panel {
+  margin:auto;
+  width: 40%;
+}
+
+#gameDiv {
+  margin:auto;
+  width: 60%;
+}
+
+#status-well {
+  margin-top: 15px;
+}
+
+#board {
+  margin:auto;
+  width: 600px;
+}
+
+#player-nickname {
+  float:right;
+  padding-right:10px;
+}

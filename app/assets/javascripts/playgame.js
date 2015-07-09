@@ -4,17 +4,19 @@ var game = null;
 $(document).ready(function(){
   connection = new window.Connection(me.nickName, receiveMove, receiveGameRequest, startGame);
   showListOfPlayers();
+  $("#player-nickname h4").text(me.nickName);
 });
 
 function showListOfPlayers() {
   players.forEach(function(player){
-    var string = "<li><span>" + player.nickName + "</span><button class='playThisGuy' data-nickName='" + player.nickName + "' data-id='" + player.id + "'>Play this guy</button></li>";
+    var string = "<li class='list-group-item'><span>" + player.nickName + " </span><button class='btn btn-primary playThisGuy' data-nickName='" + player.nickName + "' data-id='" + player.id + "'>Send request to play</button></li>";
     $("#playerList").append(string);
   });
 }
 
 $(document).on('click', '.playThisGuy', function(data){
   var theirId = $(this).data('id');
+  $(this).text("waiting…");
   connection.sendGameRequest(me.id, theirId);
 });
 
@@ -22,17 +24,20 @@ $(document).on('click', '.playMe', function(data){
 	var theirId = $(this).data('id');
 	var theirname = $(this).data('nickname');
 	var body = "<p>" + theirname + " has invited you to play a game! Accept below </p>"
-	$('.modal-title').text(theirname + " wants to play!");
+	$('.modal-title').text(theirname + " wants to play! Click to accept");
 	$('.modal-body').append(body);
 	$('#accept').data('id', theirId);
-	$("#myModal").modal(); 
+	$("#myModal").modal();
 });
+
 $(document).on('click', '#accept', function(data){
 	var theirId = $(this).data('id')
 	$('#myModal').modal('hide');
-	$("ul").find("[data-id='" + theirId + "']").text("Play this guy");
-	$("ul").find("[data-id='" + theirId + "']").removeClass("playMe")
-  	connection.confirmRequest(me.id, theirId);
+	var button = $("#playerList").find("[data-id='" + theirId + "']");
+  button.text("Play this guy");
+	button.removeClass("playMe");
+  button.children(".fa-certificate").remove();
+  connection.confirmRequest(me.id, theirId);
 });
 
 
@@ -41,8 +46,10 @@ function receiveMove(data){
 }
 
 function receiveGameRequest(data) {
-	$("ul").find("[data-id='" + data.id + "']").text("Wants to Play");
-	$("ul").find("[data-id='" + data.id + "']").addClass("playMe");
+	var button = $("#playerList").find("[data-id='" + data.id + "']");
+  button.text(" Wants to Play");
+  button.prepend("<i class='fa fa-certificate'></i>");
+	$("#playerList").find("[data-id='" + data.id + "']").addClass("playMe");
 }
 
 function startGame(orientation, gameID) {
@@ -52,5 +59,7 @@ function startGame(orientation, gameID) {
     pgnElId: '#pgn'
   };
   $("#gameDiv").show();
+  $("#game-list-panel").hide();
+  $("#header").text("Play chess!")
   game = new window.Game('board', cfg, connection.sendMove, gameID);
 }
