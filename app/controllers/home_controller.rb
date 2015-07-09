@@ -14,6 +14,7 @@ class HomeController < ApplicationController
   end
 
   def replay
+    @game = Game.find(params[:id])
   end
 
 end

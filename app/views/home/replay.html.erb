@@ -10,16 +10,33 @@
       -moz-box-shadow: inset 0 0 3px 3px blue;
       box-shadow: inset 0 0 3px 3px blue;
     }
+    .highlight-check {
+      box-shadow: inset 0 0 3px 3px red;
+    }
   </style>
-  <%= javascript_include_tag "chess", "chessboard-0.3.0.min", "connection", "game", "replay" %>
+  <script>
+    var moveListString = "<%= @game.move_list %>";
+  </script>
+  <%= javascript_include_tag "chess", "chessboard-0.3.0.min", "connection", "game", "replay", "draw" %>
 <% end %>
 
-<div style="display: inline-flex;">
-  <div id="board" style="width: 400px"></div>
-  <div style="float:left; height: 396px; overflow: scroll;"><span id="pgn"></span></div>
+<h1 id="header">Watch the game!</h1>
+
+<div id="gameDiv">
+  <div id="board-wrapper">
+    <div id="board"></div>
+    <div style="float:left; height: 396px; overflow: scroll;"></div>
+  </div>
+  <div id="status-well" class="well">
+    <p><strong>Status: </strong><span id="status"></span></p>
+    <p><button id="toggle-mode-button" class="btn btn-primary" data-mode="play">Switch to Draw Mode</button></p>
+    <button class="btn btn-default start">Play</button>
+    <button class="btn btn-danger" id="stop" disabled>Stop</button>
+    <button class="btn btn-info start">Previous</button>
+    <button class="btn btn-info start">Next</button>
+  </div>
+  <div id="move-list-well" class="well">
+    <h5>Move List: </h5>
+    <p id="pgn"></p>
+  </div>
 </div>
-<p>Status: <span id="status"></span></p>
-<button class="start" onclick="myFunction()">Play</button>
-<button id="stop" onclick="myStopFunction()" disabled>Stop</button>
-<button class="start" onclick="makeRandomMove()" >Previous</button>
-<button class="start" onclick="makeRandomMove()" >Next</button>
