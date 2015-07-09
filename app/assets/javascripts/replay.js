@@ -12,8 +12,6 @@ $(document).ready(function(){
     var moveAnimator;
     var canAnimate = true;
 
-    }
-
   var updateStatus = function() {
     var status = '';
 
