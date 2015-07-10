@@ -54,3 +54,7 @@ function reset() {
   game.start();
   index = 0;
 }
+
+
+//copied from playgame.js
+// don't hate the player, hate the game ... please

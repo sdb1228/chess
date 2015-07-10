@@ -79,3 +79,20 @@ function startGame(orientation, gameID) {
   $("#header").text("Play chess!")
   game = new window.Game('board', cfg, connection.sendMove, gameID);
 }
+
+function changeShowNotation(e) {
+
+}
+
+
+$(document).on('change', '#changeHighlightLegalMoves', function(e) {
+  var highlight = false;
+  if($(this).is(':checked'))
+    highlight = true;
+
+  game.changeHighlightLegalMoves(highlight);
+});
+
+function changeHighlightPreviousMove(e) {
+
+}
