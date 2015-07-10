@@ -8,7 +8,7 @@ class HomeController < ApplicationController
     @u = User.find_or_initialize_by(nick_name: nick_name)
     @u.save!
     # get list of available players
-    players = User.all
+    players = User.where('connection_id is not null')
 
     @waiting_players = players - [@u]
   end
