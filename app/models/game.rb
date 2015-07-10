@@ -5,6 +5,6 @@ class Game < ActiveRecord::Base
 		self.save!	
 	end
 	def generate_link(host) 
-		"#{host}/replay/#{self.id}"
+		"http://#{host}/replay/#{self.id}"
 	end
 end
