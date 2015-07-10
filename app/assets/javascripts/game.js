@@ -113,7 +113,6 @@ function Game(html_id, opts, moveHook, id) {
   };
 
   var chess = new Chess();
-  debugger
   var board = new ChessBoard(html_id, this.getConfig());
 
   this.move = function(move_string) {

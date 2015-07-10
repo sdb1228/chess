@@ -14,3 +14,12 @@
  *= require_self
  *= require bootstrap_and_overrides.css
  */
+
+
+body {
+  padding-left: 20px;
+}
+
+h1 {
+  text-align: center;
+}
