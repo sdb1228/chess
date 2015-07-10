@@ -129,6 +129,9 @@ function Game(html_id, opts, moveHook, id) {
     return moveList;
   };
 
+  this.start = function(){
+    board.start();
+  }
   // ******************
   // game status
   // ******************

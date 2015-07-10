@@ -1,11 +1,14 @@
 var game = null;
+var index = 0;
+var moveList = null;
+var moveAnimator = null;
 
 $(document).ready(function(){
 
   //display the move list
 
   //make an array of the move list
-  var moveList = convertMoveList();
+  moveList = convertMoveList();
 
   var cfg = {
     draggable: false,
@@ -18,20 +21,36 @@ $(document).ready(function(){
 });
 
 function convertMoveList(){
-  return moveListString.split(" ");
+  returnList = moveListString.split(" ");
+  returnList.pop();
+  return returnList;
 }
 
-
-function myFunction() {
-    canAnimate = false;
-    moveAnimator = setTimeout(makeRandomMove, 500);
+function startMoves() {
+    moveAnimator = setInterval(makeMove, 500);
     $('.start').prop('disabled', true);
     $('#stop').prop('disabled', false);
 }
 
-function myStopFunction() {
+function stopMoves() {
   $('.start').prop('disabled', false);
     $('#stop').prop('disabled', true);
-    clearTimeout(moveAnimator);
-    canAnimate = true;
+    clearInterval(moveAnimator);
+}
+
+function makeMove() {
+  if (index > moveList.length) {
+    clearInterval(moveAnimator);
+    return;
+  }
+  game.move(moveList[index]);
+  index++;
+}
+
+function makePreviousMove() {
+}
+
+function reset() {
+  game.start();
+  index = 0;
 }
