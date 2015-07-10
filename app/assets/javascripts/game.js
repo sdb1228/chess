@@ -188,6 +188,10 @@ function Game(html_id, opts, moveHook, id) {
       this.removeGreySquares();
   }
 
+  this.start = function(){
+    board.start();
+  }
+
   // ******************
   // game status
   // ******************

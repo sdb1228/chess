@@ -31,11 +31,12 @@
           <h3 class="panel-title">Tools</h3>
         </div>
         <div class="panel-body">
-          <p><button class="btn btn-default start">Play</button>
-          <button class="btn btn-danger" id="stop" disabled="disabled">Stop</button></p>
+          <p><button id="start" onClick="startMoves()" class="btn btn-default start">Play</button>
+          <button id="stop" onClick="stopMoves()" class="btn btn-danger" disabled="disabled">Stop</button></p>
 
-          <p><button class="btn btn-info start">Previous</button>
-          <button class="btn btn-info start">Next</button></p>
+          <p><button onClick="makePreviousMove()" id="previous" class="btn btn-info start" disabled>Previous</button>
+          <button id="next" onClick="makeMove()" class="btn btn-info start">Next</button></p>
+          <button id="reset" onClick="reset()" class="btn btn-info start">Reset</button></p>
 
           <p><button id="toggle-mode-button" class="btn btn-primary" data-mode="play">Switch to Draw Mode</button></p>
 
