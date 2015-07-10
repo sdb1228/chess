@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
   get 'home/index'
   post 'playgame' => 'home#playgame'
+  get 'playgame/:game_id' => 'home#playgame'
 
-  get 'replay/:id' => 'home#replay'
+  get 'creategame' => 'home#creategame'
+
+  get 'replay/:game_id' => 'home#replay'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

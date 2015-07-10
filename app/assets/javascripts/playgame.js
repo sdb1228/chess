@@ -3,7 +3,12 @@ var game = null;
 
 $(document).ready(function(){
   connection = new window.Connection(me.nickName, receiveMove, receiveGameRequest, startGame, endGame);
-  showListOfPlayers();
+  if(isLooking){
+    showListOfPlayers();
+    switchToLooking();
+  }else{
+    connection.sendReadyPing(me.id, gameId);
+  }
   $("#player-nickname h4").text(me.nickName);
 });
 
@@ -69,15 +74,25 @@ function receiveGameRequest(data) {
 }
 
 function startGame(orientation, gameID) {
+  switchToPlaying();
   var cfg = {
     orientation: orientation,
     statusElId: '#status',
     pgnElId: '#pgn'
   };
+  game = new window.Game('board', cfg, connection.sendMove, gameID);
+}
+
+function switchToLooking() {
+  $("#gameDiv").hide();
+  $("#game-list-panel").show();
+  $("#header").text("Who's online?");
+}
+
+function switchToPlaying() {
   $("#gameDiv").show();
   $("#game-list-panel").hide();
-  $("#header").text("Play chess!")
-  game = new window.Game('board', cfg, connection.sendMove, gameID);
+  $("#header").text("Play chess!");
 }
 
 function changeShowNotation(e) {

@@ -26,7 +26,7 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, en
     startGame(data.color, data.game_id);
   };
 
-  this.sendMove = function(move_string){ 
+  this.sendMove = function(move_string){
     data = {
       connection_id: thisCon.connection_id,
       move_string: move_string,
@@ -38,6 +38,10 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, en
 
   this.sendGameRequest = function(myId, theirId) {
     thisCon.dispatcher.trigger('game_request', {my_id: myId, their_id: theirId});
+  };
+
+  this.sendReadyPing = function(myId, gameId){
+    thisCon.dispatcher.trigger('ready_ping', {my_id: myId, game_id: gameId});
   };
 
   this.dispatcher.on_open = function(data) {
@@ -59,7 +63,11 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, en
       thisCon.onGameRequest(data);
     });
     thisCon.channel.bind('game', function(data) {
-      thisCon.game_id = data.game_id
+      thisCon.game_id = data.game_id;
+      thisCon.onGameStart(data);
+    });
+    thisCon.channel.bind('ready_ping', function(data){
+      thisCon.game_id = data.game_id;
       thisCon.onGameStart(data);
     });
   };

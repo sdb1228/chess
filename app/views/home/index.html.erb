@@ -1,12 +1,26 @@
 <div class="jumbotron">
-  <h1>The Real Chess</h1>
+  <h1>Chess Club</h1>
 </div>
 
-<form id="register-form" action="/playgame" method="POST">
-  <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-  <div class="form-group">
-    <label for="nickname">I wanna play!</label>
-    <input type="text" name="nick_name" class="form-control input-lg" id="nickname" placeholder="my cool nickname">
+<div class="content-fluid">
+  <div class="row">
+    <div class="col-xs-6">
+      <h2>Find Someone online to play</h2>
+      <form id="register-form" action="/playgame" method="POST">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+        <div class="form-group">
+          <label for="nickname">My nickname</label>
+          <input type="text" name="nick_name" class="form-control input-lg" id="nickname" placeholder="my cool nickname">
+        </div>
+        <button type="submit" class="btn btn-primary">Find people</button>
+      </form>
+    </div>
+    <div id="playWithFriend" class="col-xs-6">
+      <h2>Play with a friend</h2>
+      <p>by sending them a link</p>
+      <form action="/creategame" method="GET">
+        <button type="submit" class="btn btn-primary">Start a Game</button>
+      </form>
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary">Play!</button>
-</form>
+</div>
