@@ -5,6 +5,26 @@
   font-weight: 400 !important;
 }
 
+body {
+  font-family: 'Raleway', sans-serif !important;
+  font-weight: 400 !important;
+}
+
 h1, h2, h3, h4, h5, h6 {
   @include header-font;
+  text-align: center;
+}
+
+.highlight-white {
+  -webkit-box-shadow: inset 0 0 3px 3px yellow;
+  -moz-box-shadow: inset 0 0 3px 3px yellow;
+  box-shadow: inset 0 0 3px 3px yellow;
+}
+.highlight-black {
+  -webkit-box-shadow: inset 0 0 3px 3px blue;
+  -moz-box-shadow: inset 0 0 3px 3px blue;
+  box-shadow: inset 0 0 3px 3px blue;
+}
+.highlight-check {
+  box-shadow: inset 0 0 3px 3px red;
 }
