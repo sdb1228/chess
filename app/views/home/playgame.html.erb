@@ -31,20 +31,62 @@
 <div id="player-nickname">Your nickname:<h4></h4></div>
 <h1 id="header">Who's online?</h1>
 
-<div id="gameDiv" style="display:none;">
-  <div id="board-wrapper">
-    <div id="board"></div>
-  </div>
-  <div id="status-well" class="well">
-    <p><strong>Status: </strong><span id="status"></span></p>
-    <div id="replayDiv">
-      <button id="toggle-mode-button" class="btn btn-primary" data-mode="play">Switch to Draw Mode</button>
-      <a id="replayLink" class="btn btn-link"> Click Here to Watch the Replay</a>
+<div id="gameDiv" class="content-fluid" style="display:none;">
+  <div class="row">
+
+    <div class="col-xs-2 col-md-3">
+      <div id="tool-panel" class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">Tools</h3>
+        </div>
+        <div class="panel-body">
+
+          <p><button id="toggle-mode-button" class="btn btn-primary" data-mode="play">Switch to Draw Mode</button></p>
+
+          <div class="checkbox">
+            <label>
+              <input id="changeShowNotation" type="checkbox" >
+              Show Notation
+            </label>
+          </div>
+
+          <div class="checkbox">
+            <label>
+              <input id="changeHighlightLegalMoves" type="checkbox" >
+              Highlight valid moves
+            </label>
+          </div>
+
+          <div class="checkbox">
+            <label>
+              <input id="changeHighlightPreviousMove" type="checkbox" >
+              Highlight previous move
+            </label>
+          </div>
+
+        </div>
+      </div>
     </div>
+
+
+    <div class="col-xs-10 col-md-4">
+      <div id="board-wrapper">
+        <div id="board"></div>
+      </div>
+    </div>
+
   </div>
-  <div id="move-list-well" class="well">
-    <h5>Move List: </h5>
-    <p id="pgn"></p>
+
+  <div class="row">
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+      <div id="status-well" class="well">
+        <p><strong>Status: </strong><span id="status"></span></p>
+      </div>
+      <div id="move-list-well" class="well">
+        <h5>Move List: </h5>
+        <p id="pgn"></p>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -61,24 +103,23 @@
   <ul class="list-group" id="playerList"></ul>
 </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
 
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"></h4>
-        </div>
-        <div class="modal-body">
-        </div>
-        <div class="modal-footer">
-          <button id="accept" data-id="0" type="button" class="btn btn-default">Accept</button>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title"></h4>
       </div>
-
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button id="accept" data-id="0" type="button" class="btn btn-default">Accept</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
     </div>
+
   </div>
 </div>

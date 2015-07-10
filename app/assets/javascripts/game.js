@@ -30,6 +30,10 @@ function Game(html_id, opts, moveHook, id) {
   if(opts.dropOffBoard)
     this.dropOffBoard = opts.dropOffBoard;
 
+  this.highlightLegalMoves = false;
+  if(opts.highlightLegalMoves)
+    this.highlightLegalMoves = opts.highlightLegalMoves;
+
   this.moveList = [];
   if (opts.moveList)
     this.moveList = opts.moveList;
@@ -54,6 +58,9 @@ function Game(html_id, opts, moveHook, id) {
   };
 
   this.onDrop = function(source, target) {
+    if(_this.highlightLegalMoves)
+      _this.removeGreySquares();
+
     // see if the move is legal
     var move = chess.move({
       from: source,
@@ -93,6 +100,35 @@ function Game(html_id, opts, moveHook, id) {
     _this.notMyTurn = false;
   };
 
+  this.onMouseoverSquare = function(square, piece) {
+    if(!_this.highlightLegalMoves)
+      return false;
+
+    // get list of possible moves for this square
+    var moves = chess.moves({
+      square: square,
+      verbose: true
+    });
+
+    // exit if there are no moves available for this square
+    if (moves.length === 0) return;
+
+    // highlight the square they moused over
+    _this.greySquare(square);
+
+    // highlight the possible squares for this piece
+    for (var i = 0; i < moves.length; i++) {
+      _this.greySquare(moves[i].to);
+    }
+  };
+
+  this.onMouseoutSquare = function(square, piece) {
+    if(!_this.highlightLegalMoves)
+      return false;
+
+    _this.removeGreySquares();
+  };
+
   // ******************
   // integration functions
   // ******************
@@ -108,7 +144,9 @@ function Game(html_id, opts, moveHook, id) {
       onDragStart: this.onDragStart,
       onDrop: this.onDrop,
       onSnapEnd: this.onSnapEnd,
-      onMoveEnd: this.onMoveEnd
+      onMoveEnd: this.onMoveEnd,
+      onMouseoutSquare: this.onMouseoutSquare,
+      onMouseoverSquare: this.onMouseoverSquare
     };
   };
 
@@ -128,6 +166,27 @@ function Game(html_id, opts, moveHook, id) {
   this.getMoveList = function(){
     return moveList;
   };
+
+  this.removeGreySquares = function() {
+    $('#board .square-55d63').css('background', '');
+  };
+
+  this.greySquare = function(square) {
+    var squareEl = $('#board .square-' + square);
+
+    var background = '#a9a9a9';
+    if (squareEl.hasClass('black-3c85d') === true) {
+      background = '#696969';
+    }
+
+    squareEl.css('background', background);
+  };
+
+  this.changeHighlightLegalMoves = function(highlight) {
+    this.highlightLegalMoves = highlight;
+    if(!highlight)
+      this.removeGreySquares();
+  }
 
   // ******************
   // game status

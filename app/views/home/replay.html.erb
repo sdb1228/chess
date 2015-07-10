@@ -32,22 +32,42 @@
         </div>
         <div class="panel-body">
           <p><button class="btn btn-default start">Play</button>
-          <button class="btn btn-danger" id="stop" disabled>Stop</button></p>
+          <button class="btn btn-danger" id="stop" disabled="disabled">Stop</button></p>
 
           <p><button class="btn btn-info start">Previous</button>
           <button class="btn btn-info start">Next</button></p>
 
           <p><button id="toggle-mode-button" class="btn btn-primary" data-mode="play">Switch to Draw Mode</button></p>
+
+          <div class="checkbox">
+            <label>
+              <input id="showNotation" type="checkbox" onChange="changeShowNotation">
+              Show Notation
+            </label>
+          </div>
+
+          <div class="checkbox">
+            <label>
+              <input type="checkbox"  onChange="changeHighlightLegalMoves">
+              Highlight valid moves
+            </label>
+          </div>
+
+          <div class="checkbox">
+            <label>
+              <input type="checkbox"  onChange="changeHighlightPreviousMove">
+              Highlight previous move
+            </label>
+          </div>
+
         </div>
       </div>
     </div>
 
 
     <div class="col-xs-10 col-md-4">
-      <div id="gameDiv">
-        <div id="board-wrapper">
-          <div id="board"></div>
-        </div>
+      <div id="board-wrapper">
+        <div id="board"></div>
       </div>
     </div>
 

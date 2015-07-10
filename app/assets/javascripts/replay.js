@@ -35,3 +35,8 @@ function myStopFunction() {
     clearTimeout(moveAnimator);
     canAnimate = true;
 }
+
+
+//copied from playgame.js
+// don't hate the player, hate the game ... please
+
