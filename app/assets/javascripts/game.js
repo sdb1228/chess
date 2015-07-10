@@ -99,6 +99,7 @@ function Game(html_id, opts, moveHook, id) {
 
   this.getConfig = function() {
     return {
+      pieceTheme: location.origin + '/img/chesspieces/wikipedia/{piece}.png',
       position: this.position,
       orientation: this.orientation,
       showNotation: this.showNotation,
@@ -112,6 +113,7 @@ function Game(html_id, opts, moveHook, id) {
   };
 
   var chess = new Chess();
+  debugger
   var board = new ChessBoard(html_id, this.getConfig());
 
   this.move = function(move_string) {

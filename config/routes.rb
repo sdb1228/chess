@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'home/index'
-  post 'home/playgame' => 'home#playgame'
+  post 'playgame' => 'home#playgame'
 
   get 'replay/:id' => 'home#replay'
 

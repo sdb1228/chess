@@ -1,4 +1,21 @@
+var game = null;
+
 $(document).ready(function(){
+
+  //display the move list
+
+  //make an array of the move list
+
+  var cfg = {
+    draggable: false,
+    statusElId: '#status',
+    pgnElId: '#pgn'
+  };
+  $("#gameDiv").show();
+  $("#game-list-panel").hide();
+  $("#header").text("Play chess!")
+  game = new window.Game('board', cfg, connection.sendMove, gameID);
+
 
   var board,
     boardEl = $('#board'),
