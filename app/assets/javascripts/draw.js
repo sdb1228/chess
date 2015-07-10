@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var canvas = null;
   var ctx = null;
-  var color = '#8fd0ff';
+  var color = '#ff0000';
 
   function clear() {
     ctx.clearRect(0, 0, canvas[0].width, canvas[0].height);
@@ -66,12 +66,18 @@ $(document).ready(function() {
       el.html('Switch to Play Mode');
       canvas = createCanvas();
       ctx = canvas[0].getContext('2d');
+      $('#color-picker').removeClass('hidden').addClass('show');
     } else if (el.data('mode') === 'draw') {
       el.data('mode', 'play');
       el.html('Switch to Draw Mode');
       ctx = null;
       canvas.remove();
       canvas = null;
+      $('#color-picker').removeClass('show').addClass('hidden');
     }
+  });
+
+  $('#color-picker label').on('click', function(e) {
+    color = $(e.currentTarget).children('input').val()
   });
 });

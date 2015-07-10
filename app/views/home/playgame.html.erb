@@ -27,7 +27,25 @@
         <div class="panel-body">
           <a id="replayLink" class="btn btn-link"> Click Here to Watch the Replay</a>
 
-          <p><button id="toggle-mode-button" class="btn btn-primary" data-mode="play">Switch to Draw Mode</button></p>
+          <div>
+            <div>
+              <button id="toggle-mode-button" class="btn btn-primary" data-mode="play">Switch to Draw Mode</button>
+            </div>
+            <div id="color-picker" class="btn-group hidden" role="group" data-toggle="buttons">
+              <label class="btn btn-default active">
+                <input type="radio" name="colors" autocomplete="off" checked value="#ff0000">
+                <span class="swatch" title="#ff0000" style="background-color: #ff0000"></span>
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="colors" autocomplete="off" value="#ffff00">
+                <span class="swatch" title="#ffff00" style="background-color: #ffff00"></span>
+              </label>
+              <label class="btn btn-default">
+                <input type="radio" name="colors" autocomplete="off" value="#8fd0ff">
+                <span class="swatch" title="#8fd0ff" style="background-color: #8fd0ff"></span>
+              </label>
+            </div>
+          </div>
 
           <div class="checkbox">
             <label>

@@ -46,3 +46,16 @@
   border-left: 1px solid #888;
   text-align: center;
 }
+
+#color-picker {
+  margin-top: 15px;
+  margin-bottom: 17px;
+  height: 25px;
+
+  .swatch {
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
