@@ -45,7 +45,8 @@ class ChatController < WebsocketRails::BaseController
   end
   def closed
     controller_store.delete(client_id)
-    user = User.where(connection_id: client_id).first.connection_id = nil
+    user = User.where(connection_id: client_id).first
+    user.connection_id = nil
     user.save!
   end
 end
