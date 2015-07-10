@@ -9,9 +9,6 @@
         {id: <%= player.id %>, nickName: '<%= player.nick_name %>'},
       <% end %>
     ];
-    var isLooking = <%= @looking %>;
-    var orientationFromServer = '<%= @orientation %>';
-    var gameId = <%= @game.id if @game %>;
   </script>
   <%= javascript_include_tag "chess", "chessboard-0.3.0.min", "connection", "game", "playgame", "draw" %>
 <% end %>
