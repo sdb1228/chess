@@ -11,7 +11,7 @@ $(document).ready(function(){
     function () {
         if (connection.ready) {
             connection.sendReadyPing(me.id, gameId);
-        }
+        } else {}
     }, 5);
   }
   $("#player-nickname h4").text(me.nickName);
