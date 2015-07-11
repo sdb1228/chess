@@ -3,6 +3,7 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, en
   this.channel = null;
   this.connection_id = null;
   this.game_id = null;
+  this.ready = false;
 
   thisCon = this;
 
@@ -45,6 +46,7 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, en
   };
 
   this.dispatcher.on_open = function(data) {
+    thisCon.ready = true;
     var connectionObj = { connection_id: data.connection_id, nick_name: nickName };
     thisCon.connection_id = data.connection_id;
     thisCon.dispatcher.trigger('connected',  connectionObj);

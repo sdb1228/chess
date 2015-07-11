@@ -7,7 +7,16 @@ $(document).ready(function(){
     showListOfPlayers();
     switchToLooking();
   }else{
-    connection.sendReadyPing(me.id, gameId);
+    setTimeout(
+    function () {
+        if (connection.ready) {
+            console.log("Connection is made");
+            connection.sendReadyPing(me.id, gameId);
+        } else {
+            console.log("wait for connection...")
+        }
+
+    }, 5);
   }
   $("#player-nickname h4").text(me.nickName);
 });
