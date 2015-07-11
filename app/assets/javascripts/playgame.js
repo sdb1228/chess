@@ -12,7 +12,7 @@ $(document).ready(function(){
         if (connection.ready) {
             connection.sendReadyPing(me.id, gameId);
         } else {}
-    }, 5);
+    }, 2000);
   }
   $("#player-nickname h4").text(me.nickName);
 });
