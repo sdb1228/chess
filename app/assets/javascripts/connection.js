@@ -3,7 +3,10 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, en
   this.channel = null;
   this.connection_id = null;
   this.game_id = null;
-  this.ready = false;
+  this.connected = false;
+  this.readyPing = {
+    pending: false
+  };
 
   thisCon = this;
 
@@ -42,15 +45,26 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, en
   };
 
   this.sendReadyPing = function(myId, gameId){
-    thisCon.dispatcher.trigger('ready_ping', {my_id: myId, game_id: gameId});
+    if (thisCon.connected){
+      thisCon.dispatcher.trigger('ready_ping', {my_id: myId, game_id: gameId});
+      thisCon.readyPing.pending = false;
+    }else{
+      thisCon.readyPing.pending = true;
+      thisCon.readyPing.myId = myId;
+      thisCon.readyPing.gameId = gameId;
+    }
   };
 
   this.dispatcher.on_open = function(data) {
-    thisCon.ready = true;
     var connectionObj = { connection_id: data.connection_id, nick_name: nickName };
     thisCon.connection_id = data.connection_id;
     thisCon.dispatcher.trigger('connected',  connectionObj);
     thisCon.channel = thisCon.dispatcher.subscribe(data.connection_id);
+
+    thisCon.connected = true;
+    if(thisCon.readyPing.pending){
+      thisCon.sendReadyPing(thisCon.readyPing.myId, thisCon.readyPing.gameId);
+    }
 
     thisCon.channel.bind('send_move', function(data) {
       if (data.endOfGame) {

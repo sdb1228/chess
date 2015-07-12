@@ -66,7 +66,7 @@ class ChatController < WebsocketRails::BaseController
       end
       waiting_player = User.find(waiting_player_id)
       WebsocketRails[waiting_player.connection_id].trigger(:ready_ping, {color: waiting_player_color, game_id: game.id})
-      WebsocketRails[client_id].trigger(:ready_ping, {color: my_color, game_id: game.id})
+      WebsocketRails[requester.connection_id].trigger(:ready_ping, {color: my_color, game_id: game.id})
     end
   end
 end

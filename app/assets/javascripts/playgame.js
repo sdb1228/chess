@@ -7,12 +7,7 @@ $(document).ready(function(){
     showListOfPlayers();
     switchToLooking();
   }else{
-    setTimeout(
-    function () {
-        if (connection.ready) {
-            connection.sendReadyPing(me.id, gameId);
-        } else {}
-    }, 2000);
+    connection.sendReadyPing(me.id, gameId);
   }
   $("#player-nickname h4").text(me.nickName);
 });
