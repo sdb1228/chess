@@ -34,6 +34,10 @@ function Game(html_id, opts, moveHook, id) {
   if(opts.highlightLegalMoves)
     this.highlightLegalMoves = opts.highlightLegalMoves;
 
+  this.highlightPreviousMove = false;
+  if(opts.highlightPreviousMove)
+    this.highlightPreviousMove = opts.highlightPreviousMove;
+
   this.moveList = [];
   if (opts.moveList)
     this.moveList = opts.moveList;
@@ -74,6 +78,13 @@ function Game(html_id, opts, moveHook, id) {
     }else {
       //disable moving
       _this.notMyTurn = true;
+
+      // highlight white's move
+      if(_this.highlightPreviousMove){
+        _this.removeHighlights('white');
+        $('.square-' + source).addClass('highlight-white');
+        $('.square-' + target).addClass('highlight-white');
+      }
 
       if (chess.in_draw() === true) {
         _this.moveList.push(move.san);
@@ -154,9 +165,24 @@ function Game(html_id, opts, moveHook, id) {
   var board = new ChessBoard(html_id, this.getConfig());
 
   this.move = function(move_string) {
+    var beforeKeys = _.keys(board.position());
     chess.move(move_string);
     board.position(chess.fen());
     _this.updateStatus();
+
+    //highlight black
+    if(_this.highlightPreviousMove){
+      var afterKeys = _.keys(board.position());
+      var fromSpace = null;
+      beforeKeys.forEach(function(space){
+        if(afterKeys.indexOf(space) == -1)
+          fromSpace = space;
+      });
+
+      _this.removeHighlights('black');
+      $('.square-' + fromSpace).addClass('highlight-black');
+      $('.square-' + move_string).addClass('highlight-black');
+    }
   };
 
   this.clearBoard = function() {
@@ -186,11 +212,24 @@ function Game(html_id, opts, moveHook, id) {
     this.highlightLegalMoves = highlight;
     if(!highlight)
       this.removeGreySquares();
+  };
+
+  this.changeHighlightPreviousMove = function(highlight) {
+    this.highlightPreviousMove = highlight;
+    if(!highlight){
+      this.removeHighlights('black');
+      this.removeHighlights('white');
+    }
   }
 
   this.start = function(){
     board.start();
-  }
+  };
+
+  this.removeHighlights = function(color) {
+    $('.square-55d63')
+      .removeClass('highlight-' + color);
+  };
 
   // ******************
   // game status

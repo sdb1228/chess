@@ -108,6 +108,10 @@ $(document).on('change', '#changeHighlightLegalMoves', function(e) {
   game.changeHighlightLegalMoves(highlight);
 });
 
-function changeHighlightPreviousMove(e) {
+$(document).on('change', '#changeHighlightPreviousMove', function(e){
+  var highlight = false;
+  if($(this).is(':checked'))
+    highlight = true;
 
-}
+  game.changeHighlightPreviousMove(highlight);
+});
