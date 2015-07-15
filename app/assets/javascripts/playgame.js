@@ -99,6 +99,14 @@ function changeShowNotation(e) {
 
 }
 
+$(document).on('change', '#changeShowNotation', function(e){
+  var show = false;
+  if($(this).is(':checked'))
+    show = true;
+
+  game.changeShowNotation(show);
+});
+
 
 $(document).on('change', '#changeHighlightLegalMoves', function(e) {
   var highlight = false;

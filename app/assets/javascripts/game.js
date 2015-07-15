@@ -220,7 +220,7 @@ function Game(html_id, opts, moveHook, id) {
       this.removeHighlights('black');
       this.removeHighlights('white');
     }
-  }
+  };
 
   this.start = function(){
     board.start();
@@ -229,6 +229,15 @@ function Game(html_id, opts, moveHook, id) {
   this.removeHighlights = function(color) {
     $('.square-55d63')
       .removeClass('highlight-' + color);
+  };
+
+  this.changeShowNotation = function(show) {
+    if(this.showNotation != show) {
+      this.showNotation = show;
+      var cfg = this.getConfig();
+      cfg.position = board.position();
+      board = new ChessBoard(html_id, cfg);
+    }
   };
 
   // ******************
