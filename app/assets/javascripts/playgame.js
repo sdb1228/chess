@@ -95,10 +95,6 @@ function switchToPlaying() {
   $("#header").text("Play chess!");
 }
 
-function changeShowNotation(e) {
-
-}
-
 $(document).on('change', '#changeShowNotation', function(e){
   var show = false;
   if($(this).is(':checked'))

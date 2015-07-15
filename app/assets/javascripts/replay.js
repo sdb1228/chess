@@ -58,3 +58,27 @@ function reset() {
 
 //copied from playgame.js
 // don't hate the player, hate the game ... please
+
+$(document).on('change', '#changeShowNotation', function(e){
+  var show = false;
+  if($(this).is(':checked'))
+    show = true;
+
+  game.changeShowNotation(show);
+});
+
+$(document).on('change', '#changeHighlightLegalMoves', function(e) {
+  var highlight = false;
+  if($(this).is(':checked'))
+    highlight = true;
+
+  game.changeHighlightLegalMoves(highlight);
+});
+
+$(document).on('change', '#changeHighlightPreviousMove', function(e){
+  var highlight = false;
+  if($(this).is(':checked'))
+    highlight = true;
+
+  game.changeHighlightPreviousMove(highlight);
+});
