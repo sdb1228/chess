@@ -30,10 +30,12 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, en
     startGame(data.color, data.game_id);
   };
 
-  this.sendMove = function(move_string){
+  this.sendMove = function(move_string, side, fen){
     data = {
       connection_id: thisCon.connection_id,
       move_string: move_string,
+      side: side,
+      fen: fen,
       game_id: thisCon.game_id
 
     };

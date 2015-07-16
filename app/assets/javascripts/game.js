@@ -88,12 +88,12 @@ function Game(html_id, opts, moveHook, id) {
 
       if (chess.in_draw() === true) {
         _this.moveList.push(move.san);
-        moveHook(move.san + "$");
+        moveHook(move.san + "$", _this.orientation, _this.getFEN());
       }
       else{
         //save to the move list
         _this.moveList.push(move.san);
-        moveHook(move.san);
+        moveHook(move.san, _this.orientation, _this.getFEN());
       }
     }
 
@@ -238,6 +238,10 @@ function Game(html_id, opts, moveHook, id) {
       cfg.position = board.position();
       board = new ChessBoard(html_id, cfg);
     }
+  };
+
+  this.getFEN = function() {
+    return board.fen();
   };
 
   // ******************
