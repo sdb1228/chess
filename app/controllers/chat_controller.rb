@@ -25,6 +25,10 @@ class ChatController < WebsocketRails::BaseController
   	user = User.find_or_initialize_by(nick_name: data[:nick_name])
   	user.update(connection_id: data[:connection_id])
   	user.save!
+    players_list = User.where('connection_id is not null')
+    players = []
+    players_list.map{|u| temp ={id: u.id, nickName: u.nick_name}; players << temp}
+    broadcast_message :update_player_list, {players: players}
   end
   def game_request
   	requester = User.find(data[:my_id])
@@ -48,6 +52,10 @@ class ChatController < WebsocketRails::BaseController
     user = User.where(connection_id: client_id).first
     user.connection_id = nil
     user.save!
+    players_list = User.where('connection_id is not null')
+    players = []
+    players_list.map{|u| temp ={id: u.id, nickName: u.nick_name}; players << temp}
+    broadcast_message :update_player_list, {players: players}
   end
 
   def ready_ping

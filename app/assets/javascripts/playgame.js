@@ -13,6 +13,7 @@ $(document).ready(function(){
 });
 
 function showListOfPlayers() {
+  $("#playerList").html('');
   players.forEach(function(player){
     var string = "<li class='list-group-item'>" +
     "<div class='container-fluid'>" +

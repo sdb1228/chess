@@ -86,6 +86,14 @@ function Connection(nickName, onReceiveMove, onReceiveGameRequest, startGame, en
       thisCon.game_id = data.game_id;
       thisCon.onGameStart(data);
     });
+    thisCon.dispatcher.bind('update_player_list', function(data){
+        players = data.players;
+        var index = players.map(function(p) { return p.id; }).indexOf(me.id);
+        if (index > -1) {
+          players.splice(index, 1);
+        }
+        showListOfPlayers();
+    });
   };
 
 }
