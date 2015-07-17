@@ -47,6 +47,8 @@ class HomeController < ApplicationController
 
   def replay
     @game = Game.find(params[:game_id])
+    moves = Move.where("game_id = ?", @game.id)
+    @fens = moves.map{ |move| move.fen} 
   end
 
   def creategame

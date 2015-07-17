@@ -192,7 +192,10 @@ function Game(html_id, opts, moveHook, id) {
   this.getMoveList = function(){
     return moveList;
   };
-
+  this.position = function(fen){
+    board.position(fen);
+    chess.fen(fen);
+  }
   this.removeGreySquares = function() {
     $('#board .square-55d63').css('background', '');
   };

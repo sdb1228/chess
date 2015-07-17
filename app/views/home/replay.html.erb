@@ -1,6 +1,7 @@
 <% content_for :head do %>
   <script>
     var moveListString = "<%= @game.move_list %>";
+    var fens = <%= raw @fens.to_json %>;
   </script>
   <%= javascript_include_tag "chess", "chessboard-0.3.0.min", "connection", "game", "replay", "draw" %>
 <% end %>
@@ -19,7 +20,7 @@
           <p><button id="start" onClick="startMoves()" class="btn btn-default start">Play</button>
           <button id="stop" onClick="stopMoves()" class="btn btn-danger" disabled="disabled">Stop</button></p>
 
-          <p><button onClick="makePreviousMove()" id="previous" class="btn btn-info start" disabled>Previous</button>
+          <p><button onClick="makePreviousMove()" id="previous" class="btn btn-info start">Previous</button>
           <button id="next" onClick="makeMove()" class="btn btn-info start">Next</button></p>
           <button id="reset" onClick="reset()" class="btn btn-info start">Reset</button></p>
 

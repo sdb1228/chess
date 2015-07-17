@@ -39,15 +39,20 @@ function stopMoves() {
 }
 
 function makeMove() {
-  if (index > moveList.length) {
+  if (index > fens.length -1) {
     clearInterval(moveAnimator);
     return;
   }
-  game.move(moveList[index]);
   index++;
+  game.position(fens[index]);
 }
 
 function makePreviousMove() {
+  if (index < 1) {
+    return;
+  }
+  index--;
+  game.position(fens[index]);
 }
 
 function reset() {
