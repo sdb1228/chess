@@ -14,6 +14,9 @@ $(document).ready(function(){
     draggable: false,
     statusElId: '#status',
     pgnElId: '#pgn',
+    linkedMoveList: true,
+    replayMode: true,
+    fens: fens,
     moveList: moveList
   };
   game = new window.Game('board', cfg, null, 0);
@@ -27,15 +30,15 @@ function convertMoveList(){
 }
 
 function startMoves() {
-    moveAnimator = setInterval(makeMove, 500);
-    $('.start').prop('disabled', true);
-    $('#stop').prop('disabled', false);
+  moveAnimator = setInterval(makeMove, 500);
+  $('.start').prop('disabled', true);
+  $('#stop').prop('disabled', false);
 }
 
 function stopMoves() {
   $('.start').prop('disabled', false);
-    $('#stop').prop('disabled', true);
-    clearInterval(moveAnimator);
+  $('#stop').prop('disabled', true);
+  clearInterval(moveAnimator);
 }
 
 function makeMove() {
@@ -59,7 +62,6 @@ function reset() {
   game.start();
   index = 0;
 }
-
 
 //copied from playgame.js
 // don't hate the player, hate the game ... please

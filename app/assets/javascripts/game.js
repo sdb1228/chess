@@ -6,6 +6,7 @@ function Game(html_id, opts, moveHook, id) {
 
   this.gameID = id;
   this.notMyTurn = false;
+  this.moveListIndex = 0;
 
   this.position = 'start';
   if(opts.position)
@@ -38,6 +39,14 @@ function Game(html_id, opts, moveHook, id) {
   if(opts.highlightPreviousMove)
     this.highlightPreviousMove = opts.highlightPreviousMove;
 
+  this.replayMode = false;
+  if(opts.replayMode)
+    this.replayMode = opts.replayMode;
+
+  this.fens = [];
+  if(opts.fens)
+    this.fens = opts.fens;
+
   this.moveList = [];
   if (opts.moveList)
     this.moveList = opts.moveList;
@@ -48,13 +57,13 @@ function Game(html_id, opts, moveHook, id) {
   _this = this;
 
   // ******************
-  // only allow legal moves
+  // event handling
   // ******************
 
   // do not pick up pieces if the game is over
   // only pick up pieces for the side to move
   this.onDragStart = function(source, piece, position, orientation) {
-    if (chess.game_over() === true || _this.notMyTurn ||
+    if (_this.replayMode || chess.game_over() === true || _this.notMyTurn ||
         (chess.turn() === 'w' && piece.search(/^b/) !== -1) ||
         (chess.turn() === 'b' && piece.search(/^w/) !== -1)) {
       return false;
@@ -247,6 +256,29 @@ function Game(html_id, opts, moveHook, id) {
     return board.fen();
   };
 
+  this.initLinkedMoveList = function() {
+    var moveNumber = 1;
+    var html = "";
+    this.pgnEl.html("");
+    this.moveList.forEach(function(move, index){
+      if(index % 2 == 0) {
+        //even
+        //add the moveNumber
+        html = "<p><span>" + moveNumber + ". </span><span>" + this.buildMoveListLink(index, move) + "</span>";
+        moveNumber++;
+      } else {
+        //odd
+        html += "<span> " + this.buildMoveListLink(index, move) + "</span></p>";
+        this.pgnEl.append(html);
+        html = "";
+      }
+    }, this);
+  };
+
+  this.buildMoveListLink = function(value, string) {
+    return "<a href='#' data-id='" + value + "'>" + string + "</a>";
+  };
+
   // ******************
   // game status
   // ******************
@@ -285,7 +317,8 @@ function Game(html_id, opts, moveHook, id) {
     }
 
     this.statusEl.html(status);
-    this.pgnEl.html(chess.pgn({ max_width: 10, newline_char: "<br />" }));
+    if(!this.replayMode)
+      this.pgnEl.html(chess.pgn({ max_width: 10, newline_char: "<br />" }));
   };
 
   this.highlightCheck = function(color, highlight) {
@@ -307,5 +340,12 @@ function Game(html_id, opts, moveHook, id) {
     }
   };
 
+  // ******************
+  // init
+  // ******************
+
   this.updateStatus();
+
+  if(this.replayMode)
+    this.initLinkedMoveList();
 }
